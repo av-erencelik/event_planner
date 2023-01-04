@@ -23,7 +23,7 @@ const EventList = (props: {
             title={event.title}
             image={event.image}
             date={event.date}
-            location={event.id}
+            location={event.location}
           />
         );
       })}
