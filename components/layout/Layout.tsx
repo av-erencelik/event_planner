@@ -1,7 +1,14 @@
-import React from "react";
+import { NextComponentType } from "next";
+import React, { ReactElement } from "react";
+import MainHeader from "./MainHeader";
 
-const Layout = () => {
-  return <div>Layout</div>;
+const Layout = (props: { children: ReactElement }) => {
+  return (
+    <>
+      <MainHeader />
+      <main>{props.children}</main>
+    </>
+  );
 };
 
 export default Layout;
