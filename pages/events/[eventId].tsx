@@ -1,13 +1,13 @@
-import { useRouter } from "next/router";
-import { getEventById } from "../../dummy-data";
 import EventSummary from "../../components/eventdetail/event-summary";
 import EventLogistics from "../../components/eventdetail/event-logistics";
 import EventContent from "../../components/eventdetail/event-content";
 import ErrorAlert from "../../components/error-alert";
-const EventPage = () => {
-  const router = useRouter();
-  const eventId = router.query.eventId;
-  const event = getEventById(eventId as string);
+import { GetStaticPropsContext } from "next";
+import { getAllEvents, getEventById } from "../../helpers/api-utils";
+import { Event } from "../../helpers/interfaces";
+
+const EventPage = (props: { selectedEvent: Event }) => {
+  const event = props.selectedEvent;
   if (!event) {
     return (
       <ErrorAlert>
@@ -31,4 +31,32 @@ const EventPage = () => {
   );
 };
 
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const eventId = context.params!.eventId;
+  const event = await getEventById(eventId);
+  if (!event) {
+    return {
+      props: {
+        selectedEvent: null,
+      },
+    };
+  }
+  return {
+    props: {
+      selectedEvent: event,
+    },
+    revalidate: 30,
+  };
+}
+
+export async function getStaticPaths() {
+  const events = await getAllEvents();
+  const paths = events.map((event) => ({
+    params: { eventId: event.id },
+  }));
+  return {
+    paths: paths,
+    fallback: "blocking",
+  };
+}
 export default EventPage;

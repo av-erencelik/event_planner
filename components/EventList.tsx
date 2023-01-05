@@ -1,17 +1,8 @@
 import React, { Key } from "react";
+import { Events } from "../helpers/interfaces";
 import EventItem from "./EventItem";
 import classes from "./EventList.module.css";
-const EventList = (props: {
-  items: {
-    id: string;
-    title: string;
-    description: string;
-    location: string;
-    date: string;
-    image: string;
-    isFeatured: boolean;
-  }[];
-}) => {
+const EventList = (props: { items: Events }) => {
   const { items } = props;
   return (
     <ul className={classes.list}>
