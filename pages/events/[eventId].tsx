@@ -5,6 +5,7 @@ import ErrorAlert from "../../components/error-alert";
 import { GetStaticPropsContext } from "next";
 import { getAllEvents, getEventById } from "../../helpers/api-utils";
 import { Event } from "../../helpers/interfaces";
+import Head from "next/head";
 
 const EventPage = (props: { selectedEvent: Event }) => {
   const event = props.selectedEvent;
@@ -17,6 +18,10 @@ const EventPage = (props: { selectedEvent: Event }) => {
   }
   return (
     <>
+      <Head>
+        <title>{event.title}</title>
+        <meta name="description" content={event.description} />
+      </Head>
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}
